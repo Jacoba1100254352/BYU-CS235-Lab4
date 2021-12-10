@@ -10,8 +10,8 @@ WARNING: It is expressly forbidden to modify any part of this document, includin
 class PathfinderInterface
 {
 public:
-	PathfinderInterface() {}
-	virtual ~PathfinderInterface() {}
+	PathfinderInterface() = default;
+	virtual ~PathfinderInterface() = default;
 
 	//Part 1-----------------------------------------------------------------------------------
 	/*
@@ -33,7 +33,7 @@ public:
 	* Returns:		string
 	*				A single string representing the current maze
 	*/
-	virtual string toString() const = 0;
+	[[nodiscard]] virtual string toString() const = 0;
 
 	/*
 	* createRandomMaze

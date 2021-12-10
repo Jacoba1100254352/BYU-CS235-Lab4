@@ -1,7 +1,5 @@
 
 #include <iostream>
-#include <fstream>
-#include <sstream>
 #include <stdexcept>
 #include "Pathfinder.h"
 
@@ -11,11 +9,11 @@ const std::string fileArray[NUM_FILES] = { "file1.txt", "file2.txt", "file3.txt"
 
 // This will take a string temp and a Pathfinder object and will execute an instruction from the string
 // no return, but writes the results of the instruction into the ofs filestream
-void parse_instruction(std::string temp, std::ofstream &ofs, Pathfinder* aptr);
+void parse_instruction(const std::string& temp, std::ofstream &ofs, Pathfinder* aptr);
 
 //this function will take a vector containing a suggested path through a maze and determine if the path is valid.
 //if valid, returns "valid path" else returns the invalid path and a message explaining why the path is invalid
-std::string is_valid_path(vector<string> &vec, std::string mazeString);
+std::string is_valid_path(vector<string> &vec, const std::string& mazeString);
 
 // This function is a platform independent way of reading files of various line ending types.
 // It's definiton is at the bottom of the file, don't worry if you don't understand it.
@@ -29,7 +27,7 @@ int main() {
 	std::ifstream ifs; // create the stream to read in from the files
 	std::ofstream ofs; // create the output stream to write to an output file
 	std::string temp; // used to store the current instruction
-	Pathfinder* pathptr = NULL;//the Pathfinder
+	Pathfinder* pathptr;//the Pathfinder
 
 	for (int i = 0; i < NUM_FILES; i++) {
 		ifs.open(fileArray[i]); // open the file to read from
@@ -48,18 +46,15 @@ int main() {
 			parse_instruction(temp, ofs, pathptr); // parse the instructions using the Pathfinder
 		}
 		std::cout << "File write complete" << std::endl << std::endl;
-		if (pathptr != NULL) {
-			delete pathptr;
-			pathptr = NULL;
-		}
-		ifs.close();
+        delete pathptr;
+        ifs.close();
 		ofs.close();
 	}
 	std::cout << "end" << std::endl; // indicate that the program has successfuly executed all instructions
 	return 0;
 }
 
-void parse_instruction(std::string temp, std::ofstream &ofs, Pathfinder* aptr) {
+void parse_instruction(const std::string& temp, std::ofstream &ofs, Pathfinder* aptr) {
 	std::string command, expression;
 	std::stringstream ss(temp);
 
@@ -76,11 +71,11 @@ void parse_instruction(std::string temp, std::ofstream &ofs, Pathfinder* aptr) {
 		ofs << temp << "\n" << aptr->toString() << std::endl;
 	}
 	else if (command == "createRandomMaze") { // command to create a random maze
-		stringstream ss;
+		stringstream nss;
 		aptr->createRandomMaze(); // create the maze
 		vector<std::string> pathVec = aptr->solveMaze(); // attempt to solve the maze;
 
-		if (pathVec.size() == 0) { // no valid path, maze is unsolvable
+		if (pathVec.empty()) { // no valid path, maze is unsolvable
 			ofs << temp << "\n" << aptr->toString() << "\nPath: Unsolvable\n";
 		}
 		else {
@@ -125,24 +120,24 @@ string getCoords(std::string coordString, int &x, int &y, int &z) {
 
 //this function will take a vector containing a suggested path through a maze and determine if the path is valid.
 //if valid, returns "valid path" else returns the invalid path and a message explaining why the path is invalid
-std::string is_valid_path(vector<string> &vec, std::string mazeString) {
+std::string is_valid_path(vector<string> &vec, const std::string& mazeString) {
 	char maze[125];
 	stringstream ss(mazeString);
 	stringstream pathSS; // will hold a string representation of the path given in vec
 	pathSS << "Path Given:\n";
-	for (int i = 0; i < 125; i++) { // import the maze information
-		ss >> maze[i];
+	for (char & i : maze) { // import the maze information
+		ss >> i;
 	}
 
-	if (vec.size() == 0) {
+	if (vec.empty()) {
 		return "Maze has no valid solution";
 	}
 
 
-	for (int i = 0; i < vec.size(); i++) { // load the maze string into pathSS
-		pathSS << vec[i] << std::endl;
+	for (auto & i : vec) { // load the maze string into pathSS
+		pathSS << i << std::endl;
 	}
-	if (vec.size() > 0 && vec[0] != "(0, 0, 0)") {
+	if (!vec.empty() && vec[0] != "(0, 0, 0)") {
 		return "INVALID path given, path must begin at cell (0, 0, 0)\n" + pathSS.str();
 	}
 	if(vec[vec.size()-1] != "(4, 4, 4)"){
@@ -150,12 +145,12 @@ std::string is_valid_path(vector<string> &vec, std::string mazeString) {
 	}
 
 	int xloc = -1, yloc = 0, zloc = 0; // used to hold the previous location of x, y, and z.  Begin at x = -1 to indicate that no path has yet been traversed
-	for (int i = 0; i < vec.size(); i++) { // for each of the coordinates given:
+	for (auto & i : vec) { // for each of the coordinates given:
 		int newXLoc, newYLoc, newZLoc; // will hold the new location of x, y, and z
-		int xMov = 0, yMov = 0, zMov = 0; // will be 1 if the given coordinate changes from last time, else 0
+		int xMov, yMov, zMov; // will be 1 if the given coordinate changes from last time, else 0
 
-		if (getCoords(vec[i], newXLoc, newYLoc, newZLoc) != "") { // store the new coords and determine if coord was valid
-			return "INVALID coordinate format found: " + vec[i];
+		if (!getCoords(i, newXLoc, newYLoc, newZLoc).empty()) { // store the new coords and determine if coord was valid
+			return "INVALID coordinate format found: " + i;
 		}
 
 		(xloc == newXLoc) ? xMov = 0 : xMov = abs(xloc - newXLoc); // if x has changed, increment xMov
@@ -192,7 +187,7 @@ namespace ta {
 
 		std::istream::sentry guard(in, true); // Use a sentry to maintain the state of the stream
 		std::streambuf *buffer = in.rdbuf();  // Use the stream's internal buffer directly to read characters
-		int c = 0;
+		int c;
 
 		while (true) { // Continue to loop until a line break if found (or end of file)
 			c = buffer->sbumpc(); // Read one character

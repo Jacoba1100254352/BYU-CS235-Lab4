@@ -9,7 +9,7 @@ do
     cat out_$f >> turnin.txt
     echo "out_$f">> details.txt
     sdiff -s key_$f out_$f >> details.txt
-    if [ ${PIPESTATUS[0]} -eq 0 ];
+    if [ "${PIPESTATUS[0]}" -eq 0 ];
     then
         echo "key_$f and out_$f are identical"
     else

@@ -1,0 +1,4 @@
+"/Users/jacobanderson/Library/Application Support/JetBrains/Toolbox/apps/CLion/ch-0/213.5744.254/CLion.app/Contents/bin/cmake/mac/bin/cmake" -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" "/Users/jacobanderson/Dropbox (Personal)/Jacobs docs/Docs/Work and School/Programming/C++/Programs/CS235 Labs/Lab4_Recursion"
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Users/jacobanderson/Dropbox (Personal)/Jacobs docs/Docs/Work and School/Programming/C++/Programs/CS235 Labs/Lab4_Recursion/cmake-build-debug
