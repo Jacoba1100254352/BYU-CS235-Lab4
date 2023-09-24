@@ -102,7 +102,7 @@ void parse_instruction(const std::string& temp, std::ofstream &ofs, Pathfinder* 
 
 
 //inserts values for x, y, ans z into the given ints based on the coordinates given in coordString
-//returns "" if the string given was a vlaid coordinate, else returns the coordString
+//returns "" if the string given was a valid coordinate, else returns the coordString
 string getCoords(std::string coordString, int &x, int &y, int &z) {
 	stringstream ss;
 	if (coordString.size() != 9) {//coordinate string must contain 9 characters "(x, y, z)"

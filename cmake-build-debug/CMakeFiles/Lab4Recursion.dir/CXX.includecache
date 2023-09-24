@@ -1,0 +1,46 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/jacobanderson/Dropbox (Personal)/Jacobs docs/Docs/Work and School/Programming/C++/Programs/CS235 Labs/Lab4_Recursion/Pathfinder.cpp
+Pathfinder.h
+/Users/jacobanderson/Dropbox (Personal)/Jacobs docs/Docs/Work and School/Programming/C++/Programs/CS235 Labs/Lab4_Recursion/Pathfinder.h
+
+/Users/jacobanderson/Dropbox (Personal)/Jacobs docs/Docs/Work and School/Programming/C++/Programs/CS235 Labs/Lab4_Recursion/Pathfinder.h
+iostream
+-
+string
+-
+vector
+-
+PathfinderInterface.h
+/Users/jacobanderson/Dropbox (Personal)/Jacobs docs/Docs/Work and School/Programming/C++/Programs/CS235 Labs/Lab4_Recursion/PathfinderInterface.h
+algorithm
+-
+sstream
+-
+fstream
+-
+random
+-
+
+/Users/jacobanderson/Dropbox (Personal)/Jacobs docs/Docs/Work and School/Programming/C++/Programs/CS235 Labs/Lab4_Recursion/PathfinderInterface.h
+iostream
+-
+string
+-
+vector
+-
+
+/Users/jacobanderson/Dropbox (Personal)/Jacobs docs/Docs/Work and School/Programming/C++/Programs/CS235 Labs/Lab4_Recursion/main.cpp
+iostream
+-
+stdexcept
+-
+Pathfinder.h
+/Users/jacobanderson/Dropbox (Personal)/Jacobs docs/Docs/Work and School/Programming/C++/Programs/CS235 Labs/Lab4_Recursion/Pathfinder.h
+
